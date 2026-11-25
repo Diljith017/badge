@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PostService } from '../post';
-import { Authservice} from '../authservice';
+import { Authservice } from '../authservice';
 import { Router } from '@angular/router';
 
 @Component({
@@ -15,13 +15,12 @@ export class Home implements OnInit {
 
   posts: any[] = [];
 
-  constructor(
-    private postService: PostService,
-    private authService: Authservice,
-    private router: Router
-  ) {}
+  private postService = inject(PostService);
+  private authService = inject(Authservice);
+  private router = inject(Router);
 
   ngOnInit(): void {
+
     this.postService.getPosts().subscribe({
       next: (data) => {
         this.posts = data;
@@ -30,7 +29,8 @@ export class Home implements OnInit {
         console.log('Error fetching posts', error);
       }
     });
+
   }
 
-  
+ 
 }
